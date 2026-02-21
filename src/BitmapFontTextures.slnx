@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BitmapFontTextures.Content/BitmapFontTextures.Content.csproj" />
+  <Project Path="BitmapFontTextures\BitmapFontTextures.csproj" />
+</Solution>

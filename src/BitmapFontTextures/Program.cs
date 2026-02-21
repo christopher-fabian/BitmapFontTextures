@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace TTF2BMP;
+namespace BitmapFontTextures;
 
 internal static class Program
 {

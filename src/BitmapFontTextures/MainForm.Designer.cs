@@ -5,7 +5,7 @@
 // Copyright (C) Microsoft Corporation. All rights reserved.
 //-----------------------------------------------------------------------------
 
-namespace TTF2BMP
+namespace BitmapFontTextures
 {
     partial class MainForm
     {
@@ -46,12 +46,12 @@ namespace TTF2BMP
       label7 = new System.Windows.Forms.Label();
       colorDialog = new System.Windows.Forms.ColorDialog();
       groupBox1 = new System.Windows.Forms.GroupBox();
-      OutlineColorSample = new System.Windows.Forms.PictureBox();
+      pictureBoxOutlineColor = new System.Windows.Forms.PictureBox();
       OutlineSize = new System.Windows.Forms.TextBox();
       groupBox2 = new System.Windows.Forms.GroupBox();
       AlphaAmount = new System.Windows.Forms.TextBox();
       label8 = new System.Windows.Forms.Label();
-      ShadowColorSample = new System.Windows.Forms.PictureBox();
+      pictureBoxShadowColor = new System.Windows.Forms.PictureBox();
       ShadowOffset = new System.Windows.Forms.TextBox();
       TextFilesListBox = new System.Windows.Forms.ListBox();
       ChooseTextFilesButton = new System.Windows.Forms.Button();
@@ -61,9 +61,9 @@ namespace TTF2BMP
       checkBoxExportDefault = new System.Windows.Forms.CheckBox();
       buttonChooseFontFiles = new System.Windows.Forms.Button();
       groupBox1.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)OutlineColorSample).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)pictureBoxOutlineColor).BeginInit();
       groupBox2.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)ShadowColorSample).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)pictureBoxShadowColor).BeginInit();
       SuspendLayout();
       // 
       // Antialias
@@ -132,7 +132,7 @@ namespace TTF2BMP
       Export.TabIndex = 11;
       Export.Text = "&Export";
       Export.UseVisualStyleBackColor = true;
-      Export.Click += Export_Click;
+      Export.Click += ButtonExport_Click;
       // 
       // label5
       // 
@@ -167,7 +167,7 @@ namespace TTF2BMP
       // groupBox1
       // 
       groupBox1.Controls.Add(label6);
-      groupBox1.Controls.Add(OutlineColorSample);
+      groupBox1.Controls.Add(pictureBoxOutlineColor);
       groupBox1.Controls.Add(OutlineSize);
       groupBox1.Location = new System.Drawing.Point(428, 35);
       groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -180,16 +180,16 @@ namespace TTF2BMP
       // 
       // OutlineColorSample
       // 
-      OutlineColorSample.BackColor = System.Drawing.Color.Black;
-      OutlineColorSample.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      OutlineColorSample.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", settings1, "OutlineColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-      OutlineColorSample.Location = new System.Drawing.Point(10, 46);
-      OutlineColorSample.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-      OutlineColorSample.Name = "OutlineColorSample";
-      OutlineColorSample.Size = new System.Drawing.Size(94, 24);
-      OutlineColorSample.TabIndex = 18;
-      OutlineColorSample.TabStop = false;
-      OutlineColorSample.Click += OutlineColorSample_Click;
+      pictureBoxOutlineColor.BackColor = System.Drawing.Color.Black;
+      pictureBoxOutlineColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      pictureBoxOutlineColor.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", settings1, "OutlineColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+      pictureBoxOutlineColor.Location = new System.Drawing.Point(10, 46);
+      pictureBoxOutlineColor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+      pictureBoxOutlineColor.Name = "OutlineColorSample";
+      pictureBoxOutlineColor.Size = new System.Drawing.Size(94, 24);
+      pictureBoxOutlineColor.TabIndex = 18;
+      pictureBoxOutlineColor.TabStop = false;
+      pictureBoxOutlineColor.Click += PictureBoxOutlineColor_Click;
       // 
       // OutlineSize
       // 
@@ -205,7 +205,7 @@ namespace TTF2BMP
       // 
       groupBox2.Controls.Add(AlphaAmount);
       groupBox2.Controls.Add(label8);
-      groupBox2.Controls.Add(ShadowColorSample);
+      groupBox2.Controls.Add(pictureBoxShadowColor);
       groupBox2.Controls.Add(label7);
       groupBox2.Controls.Add(ShadowOffset);
       groupBox2.Location = new System.Drawing.Point(429, 135);
@@ -239,16 +239,16 @@ namespace TTF2BMP
       // 
       // ShadowColorSample
       // 
-      ShadowColorSample.BackColor = System.Drawing.Color.Gray;
-      ShadowColorSample.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-      ShadowColorSample.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", settings1, "ShadowColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-      ShadowColorSample.Location = new System.Drawing.Point(10, 45);
-      ShadowColorSample.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-      ShadowColorSample.Name = "ShadowColorSample";
-      ShadowColorSample.Size = new System.Drawing.Size(94, 24);
-      ShadowColorSample.TabIndex = 19;
-      ShadowColorSample.TabStop = false;
-      ShadowColorSample.Click += ShadowColorSample_Click;
+      pictureBoxShadowColor.BackColor = System.Drawing.Color.Gray;
+      pictureBoxShadowColor.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+      pictureBoxShadowColor.DataBindings.Add(new System.Windows.Forms.Binding("BackColor", settings1, "ShadowColor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+      pictureBoxShadowColor.Location = new System.Drawing.Point(10, 45);
+      pictureBoxShadowColor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+      pictureBoxShadowColor.Name = "ShadowColorSample";
+      pictureBoxShadowColor.Size = new System.Drawing.Size(94, 24);
+      pictureBoxShadowColor.TabIndex = 19;
+      pictureBoxShadowColor.TabStop = false;
+      pictureBoxShadowColor.Click += PictureBoxShadowColor_Click;
       // 
       // ShadowOffset
       // 
@@ -282,7 +282,7 @@ namespace TTF2BMP
       ChooseTextFilesButton.TabIndex = 37;
       ChooseTextFilesButton.Text = "Choose Text Files";
       ChooseTextFilesButton.UseVisualStyleBackColor = true;
-      ChooseTextFilesButton.Click += ChooseTextFilesButton_Click;
+      ChooseTextFilesButton.Click += ButtonChooseTextFiles_Click;
       // 
       // comboBoxFontSize
       // 
@@ -377,10 +377,10 @@ namespace TTF2BMP
       FormClosing += MainForm_FormClosing;
       groupBox1.ResumeLayout(false);
       groupBox1.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)OutlineColorSample).EndInit();
+      ((System.ComponentModel.ISupportInitialize)pictureBoxOutlineColor).EndInit();
       groupBox2.ResumeLayout(false);
       groupBox2.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)ShadowColorSample).EndInit();
+      ((System.ComponentModel.ISupportInitialize)pictureBoxShadowColor).EndInit();
       ResumeLayout(false);
       PerformLayout();
 
@@ -402,10 +402,10 @@ namespace TTF2BMP
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.TextBox ShadowOffset;
 		private System.Windows.Forms.ColorDialog colorDialog;
-		private System.Windows.Forms.PictureBox OutlineColorSample;
+		private System.Windows.Forms.PictureBox pictureBoxOutlineColor;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.PictureBox ShadowColorSample;
+		private System.Windows.Forms.PictureBox pictureBoxShadowColor;
 		private System.Windows.Forms.TextBox AlphaAmount;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.ListBox TextFilesListBox;

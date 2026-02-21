@@ -5,12 +5,13 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 
-namespace TTF2BMP.Fonts;
+namespace BitmapFontTextures.Fonts;
 
-internal sealed class CustomFontService
+internal sealed class CustomFontService : IDisposable
 {
+  private readonly List<PrivateFontCollection> customFontCollections = [];
   private readonly Dictionary<string, CustomFont> customFonts = [];
-  private readonly PrivateFontCollection customFontCollection = new();
+  private bool disposed;
 
   public IEnumerable<CustomFont> Fonts => customFonts.Values;
 
@@ -39,12 +40,16 @@ internal sealed class CustomFontService
       return false;
     }
 
+    PrivateFontCollection customFontCollection = new();
+    customFontCollections.Add(customFontCollection);
+
     customFontCollection.AddFontFile(filePath);
 
-    FontFamily fontFamily = customFontCollection.Families[^1];
+    string fontName = Path.GetFileNameWithoutExtension(filePath);
+    FontFamily fontFamily = customFontCollection.Families[0];
 
-    customFont = new(filePath, fontFamily);
-    customFonts.Add(customFont.FontName, customFont);
+    customFont = new(filePath, fontName, fontFamily);
+    customFonts[customFont.FontName] = customFont;
     return true;
   }
 
@@ -58,5 +63,25 @@ internal sealed class CustomFontService
 
     fontFamily = null;
     return false;
+  }
+
+  public void Dispose()
+  {
+    Dispose(true);
+    GC.SuppressFinalize(this);
+  }
+
+  private void Dispose(bool disposing)
+  {
+    if (disposed)
+      return;
+
+    if (disposing)
+    {
+      foreach (PrivateFontCollection customFontCollection in customFontCollections)
+        customFontCollection.Dispose();
+
+      disposed = true;
+    }
   }
 }

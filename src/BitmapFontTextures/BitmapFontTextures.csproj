@@ -5,8 +5,8 @@
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
 		<Nullable>enable</Nullable>
-		<AssemblyName>TTF2BMP</AssemblyName>
-		<RootNamespace>TTF2BMP</RootNamespace>
+		<AssemblyName>BitmapFontTextures</AssemblyName>
+		<RootNamespace>BitmapFontTextures</RootNamespace>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 	</PropertyGroup>
 

@@ -3,13 +3,13 @@
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<AssemblyName>TTF2BMP.Content</AssemblyName>
-		<RootNamespace>TTF2BMP.Content</RootNamespace>
+		<AssemblyName>BitmapFontTextures.Content</AssemblyName>
+		<RootNamespace>BitmapFontTextures.Content</RootNamespace>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.4" />
+		<PackageReference Include="MonoGame.Framework.Content.Pipeline" Version="3.8.4.1" />
 	</ItemGroup>
 	
 	<ItemGroup>
