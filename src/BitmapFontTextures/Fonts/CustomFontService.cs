@@ -11,7 +11,7 @@ internal sealed class CustomFontService : IDisposable
 {
   private readonly List<PrivateFontCollection> customFontCollections = [];
   private readonly Dictionary<string, CustomFont> customFonts = [];
-  private bool disposed;
+  private bool isDisposed;
 
   public IEnumerable<CustomFont> Fonts => customFonts.Values;
 
@@ -67,21 +67,12 @@ internal sealed class CustomFontService : IDisposable
 
   public void Dispose()
   {
-    Dispose(true);
-    GC.SuppressFinalize(this);
-  }
-
-  private void Dispose(bool disposing)
-  {
-    if (disposed)
+    if (isDisposed)
       return;
 
-    if (disposing)
-    {
-      foreach (PrivateFontCollection customFontCollection in customFontCollections)
-        customFontCollection.Dispose();
+    foreach (PrivateFontCollection customFontCollection in customFontCollections)
+      customFontCollection.Dispose();
 
-      disposed = true;
-    }
+    isDisposed = true;
   }
 }

@@ -195,9 +195,7 @@ internal sealed class BitmapFontTextureService
 
     // If the entire glyph is blank, output the full blank glyph.
     if (cropLeft == cropRight)
-    {
       return bitmap;
-    }
 
     // Remove unused space from the right.
     while ((cropRight > cropLeft) && (BitmapIsEmpty(bitmap, cropRight)))
