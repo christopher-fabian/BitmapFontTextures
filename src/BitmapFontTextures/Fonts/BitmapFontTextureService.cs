@@ -92,7 +92,7 @@ internal sealed class BitmapFontTextureService
         }
       }
 
-      using (Bitmap bitmap = new(width, height + lineHeight, PixelFormat.Format32bppArgb))
+      using (Bitmap bitmap = new(width, height + lineHeight, OutputPixelFormat))
       {
         // Arrage all the glyphs onto a single larger bitmap.
         using (Graphics graphics = Graphics.FromImage(bitmap))
@@ -132,11 +132,13 @@ internal sealed class BitmapFontTextureService
     int width = (int)Math.Ceiling(size.Width);
     int height = (int)Math.Ceiling(size.Height);
 
-    Bitmap bitmap = new(width, height, PixelFormat.Format32bppArgb);
+    Bitmap bitmap = new(width, height, OutputPixelFormat);
 
     using (Graphics graphics = Graphics.FromImage(bitmap))
     {
-      graphics.TextRenderingHint = parameters.Antialias ? TextRenderingHint.ClearTypeGridFit : TextRenderingHint.SingleBitPerPixelGridFit;
+      graphics.TextRenderingHint = parameters.Antialias
+        ? TextRenderingHint.ClearTypeGridFit
+        : TextRenderingHint.SingleBitPerPixelGridFit;
       graphics.Clear(Color.Transparent);
 
       // Validate alpha value and clamp it to the range [0, 255].
@@ -190,7 +192,7 @@ internal sealed class BitmapFontTextureService
     int cropRight = bitmap.Width - 1;
 
     // Remove unused space from the left.
-    while ((cropLeft < cropRight) && (BitmapIsEmpty(bitmap, cropLeft)))
+    while ((cropLeft < cropRight) && BitmapIsEmpty(bitmap, cropLeft))
       cropLeft++;
 
     // If the entire glyph is blank, output the full blank glyph.
@@ -198,11 +200,12 @@ internal sealed class BitmapFontTextureService
       return bitmap;
 
     // Remove unused space from the right.
-    while ((cropRight > cropLeft) && (BitmapIsEmpty(bitmap, cropRight)))
+    while ((cropRight > cropLeft) && BitmapIsEmpty(bitmap, cropRight))
       cropRight--;
 
-    // Don't crop if that would reduce the glyph down to nothing at all!
-    if (cropLeft > cropRight) // Note: cropRight is inclusive, so for letter's like I, l, |, etc, cropLeft == cropRight.
+    // Don't crop if that would reduce the glyph down to nothing at all.
+    // cropRight is inclusive, so for letter's like I, l, |, etc, cropLeft == cropRight.
+    if (cropLeft > cropRight)
       return bitmap;
 
     // Add some padding back in.
