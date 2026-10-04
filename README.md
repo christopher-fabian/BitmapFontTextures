@@ -1,6 +1,6 @@
 # BitmapFontTextures
 
-A .NET Tool and Library for converting .ttf to .png for Bitmap Font Textures in MonoGame (3.8.4+).  
+A .NET Tool and Library for converting .ttf to .png for Bitmap Font Textures in MonoGame.  
 
 # Benefits
 
@@ -22,11 +22,41 @@ A .NET Tool and Library for converting .ttf to .png for Bitmap Font Textures in 
 
 5.  Go ahead and edit the texture, just don’t move any of the glyphs out of order.  Chances are some characters still rendered wonkily, but now you can fix them in photoshop.
 
+# How to use (in Content Builder Projects)
+From MonoGame 3.8.5 there is a new Console Project Style solution to more effectively manage of content.  
+(See [Working with new Content Builder Projects](https://docs.monogame.net/articles/getting_started/content_pipeline/content_builder_project.html?tabs=vscode))
+
+6. Add a reference to the BitmapFontTextures.Content.dll to your builder project.
+
+7. Include a WildcardRule to the patterns where your fonts are stored.
+```csharp
+public sealed class Builder : ContentBuilder
+{
+  public override IContentCollection GetContentCollection()
+  {
+    ContentCollection collection = new();
+
+    // Include bitmap font textures
+    collection.Include<WildcardRule>("Fonts/*.png",
+      contentImporter: new BitmapFontTextureImporter(),
+      contentProcessor: new BitmapFontTextureProcessor());
+
+    return collection;
+  }
+}
+```
+
+9.  Build your content and you should be done with this part.
+
+10.  To use the font in game, it works exactly like any other sprite font; use ContentManager.Load<SpriteFont>(fontName) and it should work as usual.
+
+# How to Use (in MGCB Editor)
+
 6.  Open up the MonoGame Pipeline Tool and your content.mgcb file.  Select the root node, and at the bottom, add a reference to the BitmapFontTextures.Content.dll you built earlier.
 
 ![image](https://github.com/user-attachments/assets/3343def9-7c7f-4872-b3e8-5c7a440e1b62)
 
-7.  Now Add the bitmap you just made to the project.
+7.   Add the bitmap you just made to the project.
 
 ![image](https://github.com/user-attachments/assets/cc698bda-1768-4d3d-af8b-a26b74d9a809)
 
