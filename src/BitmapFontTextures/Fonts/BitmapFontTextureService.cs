@@ -130,9 +130,9 @@ internal sealed class BitmapFontTextureService
 
     SizeF size = graphics.MeasureString(text, parameters.Font);
     int outline = parameters.Outline;
-    // The outline is drawn at negative offsets, so the glyph is moved by it to keep the outline inside the bitmap.
+    // Grows the glyph by the outline on every side, so the margins stay the same as without outline.
     int width = (int)Math.Ceiling(size.Width) + (2 * outline);
-    int height = (int)Math.Ceiling(size.Height) + outline;
+    int height = (int)Math.Ceiling(size.Height) + (2 * outline);
 
     Bitmap bitmap = new(width, height, OutputPixelFormat);
 
