@@ -129,8 +129,10 @@ internal sealed class BitmapFontTextureService
     string text = character.ToString();
 
     SizeF size = graphics.MeasureString(text, parameters.Font);
-    int width = (int)Math.Ceiling(size.Width);
-    int height = (int)Math.Ceiling(size.Height);
+    int outline = parameters.Outline;
+    // The outline is drawn at negative offsets, so the glyph is moved by it to keep the outline inside the bitmap.
+    int width = (int)Math.Ceiling(size.Width) + (2 * outline);
+    int height = (int)Math.Ceiling(size.Height) + outline;
 
     Bitmap bitmap = new(width, height, OutputPixelFormat);
 
@@ -154,30 +156,29 @@ internal sealed class BitmapFontTextureService
         format.LineAlignment = StringAlignment.Near;
 
         int shadow = parameters.Shadow;
-        int outline = parameters.Outline;
 
         // Draw the shadow
         if (shadow > 0)
-          graphics.DrawString(text, parameters.Font, brushShadow, shadow, shadow, format);
+          graphics.DrawString(text, parameters.Font, brushShadow, outline + shadow, outline + shadow, format);
 
         // Draw the outline
         if (outline > 0)
         {
           for (int i = 1; i <= outline; ++i)
           {
-            graphics.DrawString(text, parameters.Font, brushOutline, -1 * i, -1 * i, format);
-            graphics.DrawString(text, parameters.Font, brushOutline, 0, -1 * i, format);
-            graphics.DrawString(text, parameters.Font, brushOutline, 1 * i, -1 * i, format);
-            graphics.DrawString(text, parameters.Font, brushOutline, -1 * i, 0, format);
-            graphics.DrawString(text, parameters.Font, brushOutline, 1 * i, 0, format);
-            graphics.DrawString(text, parameters.Font, brushOutline, -1 * i, 1 * i, format);
-            graphics.DrawString(text, parameters.Font, brushOutline, 0, 1 * i, format);
-            graphics.DrawString(text, parameters.Font, brushOutline, 1 * i, 1 * i, format);
+            graphics.DrawString(text, parameters.Font, brushOutline, outline - i, outline - i, format);
+            graphics.DrawString(text, parameters.Font, brushOutline, outline, outline - i, format);
+            graphics.DrawString(text, parameters.Font, brushOutline, outline + i, outline - i, format);
+            graphics.DrawString(text, parameters.Font, brushOutline, outline - i, outline, format);
+            graphics.DrawString(text, parameters.Font, brushOutline, outline + i, outline, format);
+            graphics.DrawString(text, parameters.Font, brushOutline, outline - i, outline + i, format);
+            graphics.DrawString(text, parameters.Font, brushOutline, outline, outline + i, format);
+            graphics.DrawString(text, parameters.Font, brushOutline, outline + i, outline + i, format);
           }
         }
 
         // Draw the text
-        graphics.DrawString(text, parameters.Font, brush, 0, 0, format);
+        graphics.DrawString(text, parameters.Font, brush, outline, outline, format);
       }
 
       graphics.Flush();
@@ -192,7 +193,7 @@ internal sealed class BitmapFontTextureService
     int cropRight = bitmap.Width - 1;
 
     // Remove unused space from the left.
-    while ((cropLeft < cropRight) && BitmapIsEmpty(bitmap, cropLeft))
+    while (cropLeft < cropRight && BitmapIsEmpty(bitmap, cropLeft))
       cropLeft++;
 
     // If the entire glyph is blank, output the full blank glyph.
@@ -200,7 +201,7 @@ internal sealed class BitmapFontTextureService
       return bitmap;
 
     // Remove unused space from the right.
-    while ((cropRight > cropLeft) && BitmapIsEmpty(bitmap, cropRight))
+    while (cropRight > cropLeft && BitmapIsEmpty(bitmap, cropRight))
       cropRight--;
 
     // Don't crop if that would reduce the glyph down to nothing at all.

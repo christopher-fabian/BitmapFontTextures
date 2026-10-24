@@ -109,7 +109,7 @@ namespace BitmapFontTextures
       label3.Name = "label3";
       label3.Size = new System.Drawing.Size(30, 15);
       label3.TabIndex = 4;
-      label3.Text = "&Size:";
+      label3.Text = "&Size (px):";
       // 
       // Sample
       // 
@@ -289,7 +289,7 @@ namespace BitmapFontTextures
       comboBoxFontSize.DataBindings.Add(new System.Windows.Forms.Binding("Text", settings1, "FontSize", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
       comboBoxFontSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
       comboBoxFontSize.FormattingEnabled = true;
-      comboBoxFontSize.Items.AddRange(new object[] { "4", "5", "6", "7", "8", "9", "10", "11", "12", "14", "16", "18", "20", "22", "23", "24", "26", "28", "36", "48", "72" });
+      comboBoxFontSize.Items.AddRange(new object[] { "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "18", "20", "24", "32", "40", "48", "64", "96" });
       comboBoxFontSize.Location = new System.Drawing.Point(364, 35);
       comboBoxFontSize.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
       comboBoxFontSize.Name = "comboBoxFontSize";

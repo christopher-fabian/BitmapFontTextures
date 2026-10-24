@@ -90,8 +90,8 @@ public partial class MainForm : Form
 
       string fontFamilyName = comboBoxFontName.Text;
       Font font = customFontService.TryGetFontFamily(fontFamilyName, out FontFamily? fontFamily)
-        ? new(fontFamily, size, style)
-        : new(fontFamilyName, size, style);
+        ? new(fontFamily, size, style, GraphicsUnit.Pixel)
+        : new(fontFamilyName, size, style, GraphicsUnit.Pixel);
 
       selectedFont?.Dispose();
 
