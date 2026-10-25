@@ -147,9 +147,9 @@ internal sealed class BitmapFontTextureService
       int alpha = Math.Clamp(parameters.Alpha, 0, 255);
 
       Color customColor = Color.FromArgb(alpha, parameters.ShadowColor);
-      using (Brush brush = new SolidBrush(Color.White))
-      using (Brush brushOutline = new SolidBrush(parameters.OutlineColor))
-      using (Brush brushShadow = new SolidBrush(customColor))
+      using (SolidBrush brush = new(parameters.TextColor))
+      using (SolidBrush brushOutline = new(parameters.OutlineColor))
+      using (SolidBrush brushShadow = new(customColor))
       using (StringFormat format = new())
       {
         format.Alignment = StringAlignment.Near;

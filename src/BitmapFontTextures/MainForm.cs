@@ -29,6 +29,7 @@ public partial class MainForm : Form
   private void LoadSettings()
   {
     comboBoxFontName.Text = Settings.Default.FontName;
+    pictureBoxTextColor.BackColor = Settings.Default.TextColor;
     pictureBoxOutlineColor.BackColor = Settings.Default.OutlineColor;
     pictureBoxShadowColor.BackColor = Settings.Default.ShadowColor;
 
@@ -177,6 +178,7 @@ public partial class MainForm : Form
       BitmapFontTextureParameters parameters = new(
         text,
         selectedFont!,
+        pictureBoxTextColor.BackColor,
         int.Parse(AlphaAmount.Text),
         Antialias.Checked,
         int.Parse(ShadowOffset.Text),
@@ -212,6 +214,13 @@ public partial class MainForm : Form
     }
   }
 
+  private void PictureBoxTextColor_Click(object sender, EventArgs e)
+  {
+    colorDialog.Color = pictureBoxTextColor.BackColor;
+    colorDialog.ShowDialog();
+    pictureBoxTextColor.BackColor = colorDialog.Color;
+  }
+
   private void PictureBoxOutlineColor_Click(object sender, EventArgs e)
   {
     colorDialog.Color = pictureBoxOutlineColor.BackColor;
@@ -232,5 +241,10 @@ public partial class MainForm : Form
   private void CheckBoxExportDefault_CheckedChanged(object sender, EventArgs e)
   {
     TextFilesListBox.Enabled = ChooseTextFilesButton.Enabled = !checkBoxExportDefault.Checked;
+  }
+
+  private void MainForm_Load(object sender, EventArgs e)
+  {
+
   }
 }

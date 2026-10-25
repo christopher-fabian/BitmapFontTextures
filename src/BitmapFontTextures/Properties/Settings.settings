@@ -17,6 +17,9 @@
     <Setting Name="AlphaAmount" Type="System.String" Scope="User">
       <Value Profile="(Default)">128</Value>
     </Setting>
+    <Setting Name="TextColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
     <Setting Name="OutlineColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Black</Value>
     </Setting>

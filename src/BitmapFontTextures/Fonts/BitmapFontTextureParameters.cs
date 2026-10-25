@@ -5,6 +5,7 @@ namespace BitmapFontTextures.Fonts;
 internal sealed record BitmapFontTextureParameters(
   string Text,
   Font Font,
+  Color TextColor,
   int Alpha,
   bool Antialias,
   int Shadow,
