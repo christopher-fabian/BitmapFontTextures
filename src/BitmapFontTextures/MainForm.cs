@@ -24,6 +24,8 @@ public partial class MainForm : Form
 
     // Load settings
     LoadSettings();
+
+    SelectionChanged();
   }
 
   private void LoadSettings()
@@ -32,6 +34,10 @@ public partial class MainForm : Form
     pictureBoxTextColor.BackColor = Settings.Default.TextColor;
     pictureBoxOutlineColor.BackColor = Settings.Default.OutlineColor;
     pictureBoxShadowColor.BackColor = Settings.Default.ShadowColor;
+    textBoxSampleText.Text = Settings.Default.SampleText;
+    numericUpDownZoom.Value = Math.Clamp(Settings.Default.PreviewZoom, (int)numericUpDownZoom.Minimum, (int)numericUpDownZoom.Maximum);
+    numericUpDownSpacing.Value = Math.Clamp((decimal)Settings.Default.PreviewSpacing, numericUpDownSpacing.Minimum, numericUpDownSpacing.Maximum);
+    numericUpDownLineSpacing.Value = Math.Clamp(Settings.Default.PreviewLineSpacing, (int)numericUpDownLineSpacing.Minimum, (int)numericUpDownLineSpacing.Maximum);
 
     // Text files
     if (Settings.Default.TextFiles is not null)
@@ -55,6 +61,12 @@ public partial class MainForm : Form
 
   private void SaveSettings()
   {
+    // Preview
+    Settings.Default.SampleText = textBoxSampleText.Text;
+    Settings.Default.PreviewZoom = (int)numericUpDownZoom.Value;
+    Settings.Default.PreviewSpacing = (float)numericUpDownSpacing.Value;
+    Settings.Default.PreviewLineSpacing = (int)numericUpDownLineSpacing.Value;
+
     // Text files
     Settings.Default.TextFiles = [];
 
@@ -72,6 +84,12 @@ public partial class MainForm : Form
   }
 
   private void SelectionChanged()
+  {
+    UpdateSelectedFont();
+    UpdatePreview();
+  }
+
+  private void UpdateSelectedFont()
   {
     try
     {
@@ -96,7 +114,7 @@ public partial class MainForm : Form
 
       selectedFont?.Dispose();
 
-      labelSampleText.Font = selectedFont = font;
+      selectedFont = font;
 
       fontError = null;
     }
@@ -105,6 +123,47 @@ public partial class MainForm : Form
       fontError = ex.Message;
     }
   }
+
+  private BitmapFontTextureParameters CreateParameters(string text)
+    => new(
+      text,
+      selectedFont!,
+      pictureBoxTextColor.BackColor,
+      int.Parse(AlphaAmount.Text),
+      Antialias.Checked,
+      int.Parse(ShadowOffset.Text),
+      pictureBoxShadowColor.BackColor,
+      int.Parse(OutlineSize.Text),
+      pictureBoxOutlineColor.BackColor);
+
+  private void UpdatePreview()
+  {
+    // Events are already raised while the form is being initialized.
+    if (pixelPreview is null)
+      return;
+
+    try
+    {
+      pixelPreview.Image = fontError is null && selectedFont is not null
+        ? bitmapFontTextureService.RenderText(
+          textBoxSampleText.Text,
+          CreateParameters(textBoxSampleText.Text),
+          (float)numericUpDownSpacing.Value,
+          (int)numericUpDownLineSpacing.Value)
+        : null;
+    }
+    catch (Exception)
+    {
+      // Invalid input (e.g. while typing a number), the preview stays empty until it is valid.
+      pixelPreview.Image = null;
+    }
+  }
+
+  private void Preview_Changed(object sender, EventArgs e)
+    => UpdatePreview();
+
+  private void Zoom_ValueChanged(object sender, EventArgs e)
+    => pixelPreview.Zoom = (int)numericUpDownZoom.Value;
 
   private void FontName_SelectedIndexChanged(object sender, EventArgs e)
     => SelectionChanged();
@@ -175,18 +234,7 @@ public partial class MainForm : Form
         }
       }
 
-      BitmapFontTextureParameters parameters = new(
-        text,
-        selectedFont!,
-        pictureBoxTextColor.BackColor,
-        int.Parse(AlphaAmount.Text),
-        Antialias.Checked,
-        int.Parse(ShadowOffset.Text),
-        pictureBoxShadowColor.BackColor,
-        int.Parse(OutlineSize.Text),
-        pictureBoxOutlineColor.BackColor);
-
-      bitmapFontTextureService.Save(saveFileDialog.FileName, parameters);
+      bitmapFontTextureService.Save(saveFileDialog.FileName, CreateParameters(text));
     }
     catch (Exception ex)
     {
@@ -219,6 +267,7 @@ public partial class MainForm : Form
     colorDialog.Color = pictureBoxTextColor.BackColor;
     colorDialog.ShowDialog();
     pictureBoxTextColor.BackColor = colorDialog.Color;
+    UpdatePreview();
   }
 
   private void PictureBoxOutlineColor_Click(object sender, EventArgs e)
@@ -226,6 +275,7 @@ public partial class MainForm : Form
     colorDialog.Color = pictureBoxOutlineColor.BackColor;
     colorDialog.ShowDialog();
     pictureBoxOutlineColor.BackColor = colorDialog.Color;
+    UpdatePreview();
   }
 
   private void PictureBoxShadowColor_Click(object sender, EventArgs e)
@@ -233,6 +283,7 @@ public partial class MainForm : Form
     colorDialog.Color = pictureBoxShadowColor.BackColor;
     colorDialog.ShowDialog();
     pictureBoxShadowColor.BackColor = colorDialog.Color;
+    UpdatePreview();
   }
 
   private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -241,10 +292,5 @@ public partial class MainForm : Form
   private void CheckBoxExportDefault_CheckedChanged(object sender, EventArgs e)
   {
     TextFilesListBox.Enabled = ChooseTextFilesButton.Enabled = !checkBoxExportDefault.Checked;
-  }
-
-  private void MainForm_Load(object sender, EventArgs e)
-  {
-
   }
 }

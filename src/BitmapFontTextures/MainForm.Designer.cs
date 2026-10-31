@@ -1,3 +1,5 @@
+using BitmapFontTextures.Controls;
+
 namespace BitmapFontTextures;
 
 partial class MainForm
@@ -34,6 +36,14 @@ partial class MainForm
     label2 = new System.Windows.Forms.Label();
     label3 = new System.Windows.Forms.Label();
     labelSampleText = new System.Windows.Forms.Label();
+    textBoxSampleText = new System.Windows.Forms.TextBox();
+    labelZoom = new System.Windows.Forms.Label();
+    numericUpDownZoom = new System.Windows.Forms.NumericUpDown();
+    labelSpacing = new System.Windows.Forms.Label();
+    numericUpDownSpacing = new System.Windows.Forms.NumericUpDown();
+    labelLineSpacing = new System.Windows.Forms.Label();
+    numericUpDownLineSpacing = new System.Windows.Forms.NumericUpDown();
+    pixelPreview = new PixelPreview();
     Export = new System.Windows.Forms.Button();
     label5 = new System.Windows.Forms.Label();
     label6 = new System.Windows.Forms.Label();
@@ -61,6 +71,9 @@ partial class MainForm
     ((System.ComponentModel.ISupportInitialize)pictureBoxOutlineColor).BeginInit();
     groupBox2.SuspendLayout();
     ((System.ComponentModel.ISupportInitialize)pictureBoxShadowColor).BeginInit();
+    ((System.ComponentModel.ISupportInitialize)numericUpDownZoom).BeginInit();
+    ((System.ComponentModel.ISupportInitialize)numericUpDownSpacing).BeginInit();
+    ((System.ComponentModel.ISupportInitialize)numericUpDownLineSpacing).BeginInit();
     SuspendLayout();
     // 
     // Antialias
@@ -90,6 +103,7 @@ partial class MainForm
     Antialias.TabIndex = 10;
     Antialias.Text = "&Antialiased";
     Antialias.UseVisualStyleBackColor = true;
+    Antialias.CheckedChanged += Preview_Changed;
     // 
     // label2
     // 
@@ -113,15 +127,99 @@ partial class MainForm
     // 
     // labelSampleText
     // 
-    labelSampleText.AutoEllipsis = true;
-    labelSampleText.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-    labelSampleText.Location = new System.Drawing.Point(20, 571);
+    labelSampleText.AutoSize = true;
+    labelSampleText.Location = new System.Drawing.Point(15, 495);
     labelSampleText.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
     labelSampleText.Name = "labelSampleText";
-    labelSampleText.Size = new System.Drawing.Size(600, 200);
+    labelSampleText.Size = new System.Drawing.Size(88, 20);
     labelSampleText.TabIndex = 12;
-    labelSampleText.Text = "The quick brown fox jumped over the LAZY camel";
-    labelSampleText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+    labelSampleText.Text = "Sample te&xt";
+    //
+    // textBoxSampleText
+    //
+    textBoxSampleText.AcceptsReturn = true;
+    textBoxSampleText.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+    textBoxSampleText.Location = new System.Drawing.Point(20, 520);
+    textBoxSampleText.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+    textBoxSampleText.Multiline = true;
+    textBoxSampleText.Name = "textBoxSampleText";
+    textBoxSampleText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+    textBoxSampleText.Size = new System.Drawing.Size(600, 70);
+    textBoxSampleText.TabIndex = 13;
+    textBoxSampleText.TextChanged += Preview_Changed;
+    //
+    // labelZoom
+    //
+    labelZoom.AutoSize = true;
+    labelZoom.Location = new System.Drawing.Point(15, 601);
+    labelZoom.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+    labelZoom.Name = "labelZoom";
+    labelZoom.Size = new System.Drawing.Size(46, 20);
+    labelZoom.TabIndex = 14;
+    labelZoom.Text = "&Zoom";
+    //
+    // numericUpDownZoom
+    //
+    numericUpDownZoom.Location = new System.Drawing.Point(68, 598);
+    numericUpDownZoom.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+    numericUpDownZoom.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
+    numericUpDownZoom.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+    numericUpDownZoom.Name = "numericUpDownZoom";
+    numericUpDownZoom.Size = new System.Drawing.Size(70, 27);
+    numericUpDownZoom.TabIndex = 15;
+    numericUpDownZoom.Value = new decimal(new int[] { 4, 0, 0, 0 });
+    numericUpDownZoom.ValueChanged += Zoom_ValueChanged;
+    //
+    // labelSpacing
+    //
+    labelSpacing.AutoSize = true;
+    labelSpacing.Location = new System.Drawing.Point(160, 601);
+    labelSpacing.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+    labelSpacing.Name = "labelSpacing";
+    labelSpacing.Size = new System.Drawing.Size(61, 20);
+    labelSpacing.TabIndex = 16;
+    labelSpacing.Text = "S&pacing";
+    //
+    // numericUpDownSpacing
+    //
+    numericUpDownSpacing.DecimalPlaces = 1;
+    numericUpDownSpacing.Location = new System.Drawing.Point(228, 598);
+    numericUpDownSpacing.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+    numericUpDownSpacing.Maximum = new decimal(new int[] { 64, 0, 0, 0 });
+    numericUpDownSpacing.Minimum = new decimal(new int[] { 64, 0, 0, int.MinValue });
+    numericUpDownSpacing.Name = "numericUpDownSpacing";
+    numericUpDownSpacing.Size = new System.Drawing.Size(80, 27);
+    numericUpDownSpacing.TabIndex = 17;
+    numericUpDownSpacing.ValueChanged += Preview_Changed;
+    //
+    // labelLineSpacing
+    //
+    labelLineSpacing.AutoSize = true;
+    labelLineSpacing.Location = new System.Drawing.Point(330, 601);
+    labelLineSpacing.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+    labelLineSpacing.Name = "labelLineSpacing";
+    labelLineSpacing.Size = new System.Drawing.Size(92, 20);
+    labelLineSpacing.TabIndex = 18;
+    labelLineSpacing.Text = "&Line spacing";
+    //
+    // numericUpDownLineSpacing
+    //
+    numericUpDownLineSpacing.Location = new System.Drawing.Point(430, 598);
+    numericUpDownLineSpacing.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+    numericUpDownLineSpacing.Maximum = new decimal(new int[] { 256, 0, 0, 0 });
+    numericUpDownLineSpacing.Name = "numericUpDownLineSpacing";
+    numericUpDownLineSpacing.Size = new System.Drawing.Size(80, 27);
+    numericUpDownLineSpacing.TabIndex = 19;
+    numericUpDownLineSpacing.ValueChanged += Preview_Changed;
+    //
+    // pixelPreview
+    //
+    pixelPreview.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+    pixelPreview.Location = new System.Drawing.Point(20, 635);
+    pixelPreview.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+    pixelPreview.Name = "pixelPreview";
+    pixelPreview.Size = new System.Drawing.Size(600, 225);
+    pixelPreview.TabIndex = 20;
     // 
     // Export
     // 
@@ -229,6 +327,7 @@ partial class MainForm
     OutlineSize.Size = new System.Drawing.Size(70, 27);
     OutlineSize.TabIndex = 13;
     OutlineSize.Text = "0";
+    OutlineSize.TextChanged += Preview_Changed;
     // 
     // groupBox2
     // 
@@ -255,6 +354,7 @@ partial class MainForm
     AlphaAmount.Size = new System.Drawing.Size(60, 27);
     AlphaAmount.TabIndex = 21;
     AlphaAmount.Text = "128";
+    AlphaAmount.TextChanged += Preview_Changed;
     // 
     // label8
     // 
@@ -288,6 +388,7 @@ partial class MainForm
     ShadowOffset.Size = new System.Drawing.Size(60, 27);
     ShadowOffset.TabIndex = 16;
     ShadowOffset.Text = "0";
+    ShadowOffset.TextChanged += Preview_Changed;
     // 
     // TextFilesListBox
     // 
@@ -297,7 +398,7 @@ partial class MainForm
     TextFilesListBox.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
     TextFilesListBox.Name = "TextFilesListBox";
     TextFilesListBox.SelectionMode = System.Windows.Forms.SelectionMode.None;
-    TextFilesListBox.Size = new System.Drawing.Size(600, 184);
+    TextFilesListBox.Size = new System.Drawing.Size(600, 104);
     TextFilesListBox.TabIndex = 36;
     TextFilesListBox.TabStop = false;
     // 
@@ -394,7 +495,7 @@ partial class MainForm
     // 
     AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
     AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-    ClientSize = new System.Drawing.Size(642, 788);
+    ClientSize = new System.Drawing.Size(642, 880);
     Controls.Add(pictureBoxTextColor);
     Controls.Add(label1);
     Controls.Add(buttonChooseFontFiles);
@@ -404,6 +505,14 @@ partial class MainForm
     Controls.Add(groupBox2);
     Controls.Add(groupBox1);
     Controls.Add(Export);
+    Controls.Add(pixelPreview);
+    Controls.Add(numericUpDownLineSpacing);
+    Controls.Add(labelLineSpacing);
+    Controls.Add(numericUpDownSpacing);
+    Controls.Add(labelSpacing);
+    Controls.Add(numericUpDownZoom);
+    Controls.Add(labelZoom);
+    Controls.Add(textBoxSampleText);
     Controls.Add(labelSampleText);
     Controls.Add(label3);
     Controls.Add(label2);
@@ -416,7 +525,6 @@ partial class MainForm
     Name = "MainForm";
     Text = "Bitmap Font Textures";
     FormClosing += MainForm_FormClosing;
-    Load += MainForm_Load;
     ((System.ComponentModel.ISupportInitialize)pictureBoxTextColor).EndInit();
     groupBox1.ResumeLayout(false);
     groupBox1.PerformLayout();
@@ -424,6 +532,9 @@ partial class MainForm
     groupBox2.ResumeLayout(false);
     groupBox2.PerformLayout();
     ((System.ComponentModel.ISupportInitialize)pictureBoxShadowColor).EndInit();
+    ((System.ComponentModel.ISupportInitialize)numericUpDownZoom).EndInit();
+    ((System.ComponentModel.ISupportInitialize)numericUpDownSpacing).EndInit();
+    ((System.ComponentModel.ISupportInitialize)numericUpDownLineSpacing).EndInit();
     ResumeLayout(false);
     PerformLayout();
 
@@ -438,6 +549,14 @@ partial class MainForm
   private System.Windows.Forms.Label label2;
   private System.Windows.Forms.Label label3;
   private System.Windows.Forms.Label labelSampleText;
+  private System.Windows.Forms.TextBox textBoxSampleText;
+  private System.Windows.Forms.Label labelZoom;
+  private System.Windows.Forms.NumericUpDown numericUpDownZoom;
+  private System.Windows.Forms.Label labelSpacing;
+  private System.Windows.Forms.NumericUpDown numericUpDownSpacing;
+  private System.Windows.Forms.Label labelLineSpacing;
+  private System.Windows.Forms.NumericUpDown numericUpDownLineSpacing;
+  private PixelPreview pixelPreview;
   private System.Windows.Forms.Button Export;
   private System.Windows.Forms.Label label5;
   private System.Windows.Forms.TextBox OutlineSize;

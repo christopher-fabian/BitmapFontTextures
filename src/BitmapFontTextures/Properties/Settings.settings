@@ -47,5 +47,19 @@
     <Setting Name="FontFilesDir" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="SampleText" Type="System.String" Scope="User">
+      <Value Profile="(Default)">The quick brown fox jumps over the lazy dog.
+THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG!
+0123456789 ?!.,;:()[]{}+-*/=&lt;&gt;"'#$%&amp;@</Value>
+    </Setting>
+    <Setting Name="PreviewZoom" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="PreviewSpacing" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="PreviewLineSpacing" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

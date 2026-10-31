@@ -200,5 +200,53 @@ namespace BitmapFontTextures.Properties {
                 this["FontFilesDir"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("The quick brown fox jumps over the lazy dog.\r\nTHE QUICK BROWN FOX JUMPS OVER THE LAZY DOG!\r\n0123456789 ?!.,;:()[]{}+-*/=<>\"\'#$%&@")]
+        public string SampleText {
+            get {
+                return ((string)(this["SampleText"]));
+            }
+            set {
+                this["SampleText"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int PreviewZoom {
+            get {
+                return ((int)(this["PreviewZoom"]));
+            }
+            set {
+                this["PreviewZoom"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public float PreviewSpacing {
+            get {
+                return ((float)(this["PreviewSpacing"]));
+            }
+            set {
+                this["PreviewSpacing"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int PreviewLineSpacing {
+            get {
+                return ((int)(this["PreviewLineSpacing"]));
+            }
+            set {
+                this["PreviewLineSpacing"] = value;
+            }
+        }
     }
 }
